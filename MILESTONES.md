@@ -10,3 +10,19 @@ For the next week, we are planning to do the following:
  - Do more researches on tools that can help us analysis the git repository
  - Finalize the project 2 idea and provide better description on its feature  
  - Finalize the language & framework we want to use for project 2
+
+
+## MILESTONE 2
+
+Since last week, we have received the feedback from Amir about our project 2 idea. Amir suggested that we want to emphysis our analysis on the source code. We have done more searching and brainstorming during the weenk and talked with our TA and Alex about our idea on the project 2. Eventually we came up with the below idea:
+
+Code coverage tools are useful and tell us how much of an aplication is touched by an existing test suite, but sometimes we want to know exactly how a certain input makes our application behave. To solve this problem we are building a tool to generate a call graph for an application given certain inputs. This tool will perform a dynamic analysis of a Java programs. Given an entry point and set of inputs, we will execute the program, storing the input parameters, return value and possible other information about each method call. Then we will render a call graph that displays a node containing the relevant information for each method call.
+
+For thsis project, we will have Nick, Muriel and Shobhit working on implement analysis of the Java program. Meanwhile, Francis and Roy will be working on designing and implementing the visualization. 
+
+Roadmap for the remaning week will be:
+November 7th - 11th: Research, evaluation and initial implementation on the tools for the Java program analysis and visualizations.
+November 12th - 19th: Implementation for the Java program analysis and visualizations.
+November 20th - 24th: Integrate the Java program analysis result wiuth the visualization tool.
+November 25th - 29th: Testing, debugging and wrap up the changes.
+November 30th: Deadline of the project.
