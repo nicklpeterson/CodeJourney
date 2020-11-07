@@ -21,8 +21,8 @@ Code coverage tools are useful and tell us how much of an aplication is touched 
 For thsis project, we will have Nick, Muriel and Shobhit working on implement analysis of the Java program. Meanwhile, Francis and Roy will be working on designing and implementing the visualization. 
 
 Roadmap for the remaning week will be:
-November 7th - 11th: Research, evaluation and initial implementation on the tools for the Java program analysis and visualizations.
-November 12th - 19th: Implementation for the Java program analysis and visualizations.
-November 20th - 24th: Integrate the Java program analysis result wiuth the visualization tool.
-November 25th - 29th: Testing, debugging and wrap up the changes.
-November 30th: Deadline of the project.
+- November 7th - 11th: Research, evaluation and initial implementation on the tools for the Java program analysis and visualizations.
+- November 12th - 19th: Implementation for the Java program analysis and visualizations.
+- November 20th - 24th: Integrate the Java program analysis result wiuth the visualization tool.
+- November 25th - 29th: Testing, debugging and wrap up the changes.
+- November 30th: Deadline of the project.
