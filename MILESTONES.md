@@ -43,7 +43,7 @@ We have made some changes to our project this week:
 User Study #1: We explained our analysis to a programmer with experience using Javascript and showed them a mock up of the vizualization. 
 Then we asked the following questions to get feedback on our plan. The mock up visualization we used is in sample.png.
 
-![Alt text](/screenshots/sample.png?raw=true "Sample Visualization")
+![Sample Visualization](/screenshots/sample.png?raw=true "Sample Visualization")
 
 Name: Peter Gawtry 
 Programming Experience: 5 years of front end web development
