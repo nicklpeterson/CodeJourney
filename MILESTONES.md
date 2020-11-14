@@ -26,3 +26,41 @@ Roadmap for the remaning week will be:
 - November 20th - 24th: Integrate the Java program analysis result wiuth the visualization tool.
 - November 25th - 29th: Testing, debugging and wrap up the changes.
 - November 30th: Deadline of the project.
+
+## MILESTONE 3
+CHANGES: We have made some changes to our project this week. We decided to do our dynamic analysis on Javascript instead of Java. We plan to create a 
+user interface where the user can write javascript code and then produce a visualization just like the one outlined in the previous milestone. We will be using a library called 
+Iroh (https://github.com/maierfelix/Iroh) to do the analysis and d3.js to do our visualization both libraries require a significant amount
+of programming to use.
+
+User Study #1: We explained our analysis to a programmer with experience using Javascript and showed them a mock up of the vizualization. 
+Then we asked the following questions to get feedback on our plan. The mock up visualization we used is in sample.png
+
+Name: Peter Gawtry 
+Programming Experience: 5 years of front end web development
+Javascript Experience: 5 years
+
+
+Questions:
+
+1. Do you or have you used any dynamic analysis tools for Javascript?
+
+   No.
+
+
+2. Would you use this analysis tool?
+
+   Maybe. It's nice that it will be super easy to use. Many dynamic analysis tools require a lot of set up and programming to make work. This is simple and convenient.
+
+
+3. What problems would this analysis tool help you solve?
+
+   It could be useful for understanding code written by other people. Javascript can be a little messy and hard to follow, especially if a file is large. This tool would provide an easy and fast way to see the flow of data during execution. It could also be useful for testing. Code coverage for unit tests is nice, but sometimes it's also valuable to see the actual data flow from each test.
+
+
+4. Is there any information that you would add to the nodes or the edges that would make the visualization more useful?
+
+   It would be nice to see the time spent in each function each time it's called and the total time spent in each function (including all calls to that method).
+
+
+Conclusion: Peter seemed to really like the idea. He had a very good suggestions about including some analysis on the time spent in each function. We will include this in our final implementation.
