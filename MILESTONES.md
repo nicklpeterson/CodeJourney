@@ -18,7 +18,7 @@ Since last week, we have received the feedback from Amir about our project 2 ide
 
 Code coverage tools are useful and tell us how much of an aplication is touched by an existing test suite, but sometimes we want to know exactly how a certain input makes our application behave. To solve this problem we are building a tool to generate a call graph for an application given certain inputs. This tool will perform a dynamic analysis of a Java programs. Given an entry point and set of inputs, we will execute the program, storing the input parameters, return value and possible other information about each method call. Then we will render a call graph that displays a node containing the relevant information for each method call.
 
-For thsis project, we will have Nick, Muriel and Shobhit working on implement analysis of the Java program. Meanwhile, Francis and Roy will be working on designing and implementing the visualization. 
+For this project, we will have Nick, Muriel and Shobhit working on implement analysis of the Java program. Meanwhile, Francis and Roy will be working on designing and implementing the visualization. 
 
 Roadmap for the remaning week will be:
 - November 7th - 11th: Research, evaluation and initial implementation on the tools for the Java program analysis and visualizations.
@@ -28,13 +28,22 @@ Roadmap for the remaning week will be:
 - November 30th: Deadline of the project.
 
 ## MILESTONE 3
-CHANGES: We have made some changes to our project this week. We decided to do our dynamic analysis on Javascript instead of Java. We plan to create a 
-user interface where the user can write javascript code and then produce a visualization just like the one outlined in the previous milestone. We will be using a library called 
-Iroh (https://github.com/maierfelix/Iroh) to do the analysis and d3.js to do our visualization both libraries require a significant amount
-of programming to use.
+
+Since last week, we have done more researches on the program dynamic analysis and the visualization idea. As we have looked into some dynamic analysis and visualization tools, we have came up with our final program analysis and visualisation idea.
+
+We are planning to create a web application using ReactJS that perform dynamic analysis on javascript code and visualize the result in a force directed graph. The web application will contains a editor that allow the user to write or copy/paste javascript code. Once the user finish writting the code and run the analysis, it will analysis the execution flow of the javascript program. Next it will generate and display a force directed graph using d3.js. The node of the graph will represent the functions that were executed with the variables, and the edge will represent the call flow. The visualization will allow the user to see their code flow in realtime. 
+
+We will be using a library called Iroh (https://github.com/maierfelix/Iroh) to do the analysis and d3.js to do our visualization both libraries require a significant amount of programming to use.
+
+We have made some changes to our project this week:
+- First, we decided to do our dynamic analysis on Javascript instead of Java. This is due to some limitations on the existing dynamic analysis tools for Java. 
+- Instead of let the user upload their source code, we plan to create a user interface where the user can write javascript code and then produce a visualization just like the one outlined in the previous milestone.
+
 
 User Study #1: We explained our analysis to a programmer with experience using Javascript and showed them a mock up of the vizualization. 
-Then we asked the following questions to get feedback on our plan. The mock up visualization we used is in sample.png
+Then we asked the following questions to get feedback on our plan. The mock up visualization we used is in sample.png.
+
+![Alt text](/screenshots/sample.png?raw=true "Sample Visualization")
 
 Name: Peter Gawtry 
 Programming Experience: 5 years of front end web development
