@@ -4,7 +4,7 @@
   "description": "CPSC 410 Analysis Project",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack --config webpack.config.js"
   },
   "repository": {
     "type": "git",
@@ -13,6 +13,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "iroh": "^0.3.0"
+    "iroh": "^0.3.0",
+    "webpack": "^5.4.0"
+  },
+  "devDependencies": {
+    "webpack-cli": "^4.2.0"
   }
 }
