@@ -73,3 +73,41 @@ Questions:
 
 
 Conclusion: Peter seemed to really like the idea. He had a very good suggestions about including some analysis on the time spent in each function. We will include this in our final implementation.
+<br/><br/>
+
+## MILESTONE 4
+<br/>
+
+Status of the implementation:<br/>
+React Front-end: <br/>
+- Main UI: Started
+- Javascript Editor: Started
+- Visualization using [d3js](https://d3js.org/): On Going
+Express Back-end: 
+- Dynamic analysis using [Iroh](https://github.com/maierfelix/Iroh): On Going
+<br/><br/>
+
+Planned timeline for the remaining days:
+- Nov 20th: Progress update meeting 
+- Nov 21th: Integrate the current visulization implementation to the react project. Continue the development on front-end.  
+- Nov 23th: Resume the back-end development. Start the front-end and back-end integration.  
+- Nov 24th: Meeting to review the development progress.
+- Nov 26th: Meeting to review the development progress.
+- Nov 27th: Final user study.
+- Nov 28th: Wrap the front-end and back-end development. Start to prepare the required documentations and demo video for the final submission.
+- Nov 29th: Finish up the required documentations and demo video. Wrap up the testings.
+- Nov 30th: Day of final submission.
+
+<br/>
+Plans for final user study:
+<br/>
+<br/>
+
+* Provide a prototype demo of our project to the user, and allow them to code in the editor and explord the visualization.
+* Answer and write down any questions users asked.
+* Ask the below questions to the user:
+   * Do you or have you used any dynamic analysis tools for Javascript?
+   * Would you use this analysis tool?
+   * What problems would this analysis tool help you solve?
+   * Is there any information that you would add to the nodes or the edges that would make the visualization more useful?
+   * Is there any feature that you think is missing from this tool?
