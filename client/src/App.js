@@ -4,19 +4,17 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+      <header className="code-editor">
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          please input your code, and click generate once you complete
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <forum>
+          <textarea cols={80} rows={40}>
+          </textarea>
+          <br/>
+          <input type = "submit" value = "generate">
+          </input>
+        </forum>
       </header>
     </div>
   );
