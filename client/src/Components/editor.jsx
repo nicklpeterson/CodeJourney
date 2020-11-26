@@ -1,6 +1,21 @@
 import React, {Component} from "react"
-class Editor extends Component {
+export default class Editor extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            code: ''
+        };
+    }
+
+    generate = () =>{
+        this.setState({
+            code: document.getElementById("textfield-code").innerHTML
+        });
+    };
+
     render() {
+        const { code } = this.state;
         return (
             <div className="App">
                 <header className="code-editor">
@@ -8,15 +23,13 @@ class Editor extends Component {
                         please input your code, and click generate once you complete
                     </p>
                     <forum>
-          <textarea cols={80} rows={40}>
-          </textarea>
+                    <textarea cols={80} rows={40} id={"textfield-code"}>
+                    </textarea>
                         <br/>
-                        <input type = "submit" value = "generate">
-                        </input>
+                        <button onClick={this.generate} id={"btn-generateInput"}>generate</button>
                     </forum>
                 </header>
             </div>
         )
     }
 }
-export default Editor
