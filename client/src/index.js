@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import Editor from "./Components/editor";
 ReactDOM.render(
   <React.StrictMode>
-    <Editor />
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );
