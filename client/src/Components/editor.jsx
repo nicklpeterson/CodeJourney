@@ -11,9 +11,25 @@ export default class Editor extends Component {
     generate = () =>{
         this.setState({
             code: document.getElementById("textfield-code").innerHTML
+        },()=>{
+            this.submit();
         });
     };
-
+    submit(){
+        fetch("localhost:3000/eval",{
+            method: "POST",
+            body: JSON.stringify(this.state),
+            headers: {
+                'content-type': 'application/json'
+            }
+        }).then(
+            (data)=>{
+            }
+        )
+            .catch(()=>{
+                //error
+            })
+    }
     render() {
         const { code } = this.state;
         return (
@@ -33,3 +49,4 @@ export default class Editor extends Component {
         )
     }
 }
+
