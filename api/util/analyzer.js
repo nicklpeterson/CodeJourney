@@ -8,6 +8,18 @@ class Analyzer {
     this._callLinks = [];
     this._nodes = [];
 
+    this._stage.addListener(Iroh.PROGRAM).on('enter', (event) => {
+      this._callStack.push({
+        id: event.hash,
+        data: {},
+        name: '__Main__'
+      });
+    });
+
+    this._stage.addListener(Iroh.PROGRAM).on('leave', (event) => {
+      this._nodes.push(this._callStack.pop());
+    });
+
     this._stage.addListener(Iroh.FUNCTION).on('enter', (event) => {
       const caller = this._callStack.peek();
       if (caller) {
