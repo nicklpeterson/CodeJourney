@@ -13,8 +13,8 @@ const FlowDiagram = ({ code }) => {
                 console.log("Successfully fetched analysis data");
                 console.log(response.data);
 
-                var nodes = response.data.nodes;
-                var links = response.data.links;
+                const nodes = response.data.nodes;
+                const links = response.data.links;
 
                 links.forEach(link => {
                     link.source = nodes[link.source] || (nodes[link.source] = { name: link.source });

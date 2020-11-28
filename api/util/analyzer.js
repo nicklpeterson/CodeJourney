@@ -7,25 +7,29 @@ class Analyzer {
     this._callStack = new Stack();
     this._callLinks = [];
     this._nodes = [];
+    this._functionIndexMap = {};
+    this._id = 1;
 
     this._stage.addListener(Iroh.PROGRAM).on('enter', (event) => {
       this._callStack.push({
-        id: event.hash,
+        hash: event.hash,
         data: {},
         name: '__Main__'
       });
     });
 
     this._stage.addListener(Iroh.PROGRAM).on('leave', (event) => {
-      this._nodes.push(this._callStack.pop());
+      const program = this._callStack.pop();
+      this._nodes.push(program);
+      this._functionIndexMap[program.hash] = this._nodes.length - 1;
     });
 
     this._stage.addListener(Iroh.FUNCTION).on('enter', (event) => {
       const caller = this._callStack.peek();
       if (caller) {
-        const type = event.hash === caller.id ? 'recursion' : 'call';
+        const type = event.hash === caller.hash ? 'recursion' : 'call';
         const link = {
-          source: caller.id,
+          source: caller.hash,
           target: event.hash,
           value: 1,
           polarity: 1,
@@ -36,8 +40,8 @@ class Analyzer {
         this._callLinks.push(link);
       }
       this._callStack.push({
-        id: event.hash,
-        data: event.arguments
+        hash: event.hash,
+        data: {parameters: event.arguments}
       });
     });
 
@@ -47,22 +51,32 @@ class Analyzer {
         fun.name = event.name;
         console.log('Adding Node: ' + JSON.stringify(fun));
         this._nodes.push(fun);
+        this._functionIndexMap[fun.hash] = this._nodes.length - 1;
       }
     });
 
     this._stage.addListener(Iroh.FUNCTION).on('return', event => {
       const fun = this._callStack.pop();
       if (fun) {
-        fun.data.return = event.return;
+        fun.data = {...fun.data, return: event.return};
         fun.name = event.name;
         console.log('Adding Node: ' + JSON.stringify(fun));
         this._nodes.push(fun);
+        this._functionIndexMap[fun.hash] = this._nodes.length - 1;
       }
     });
   }
 
   evaluate() {
     eval(this._stage.script);
+    this._nodes.forEach(node => {
+      node.id = this._functionIndexMap[node.hash];
+    });
+
+    this._callLinks.forEach(link => {
+      link.source = this._functionIndexMap[link.source];
+      link.target = this._functionIndexMap[link.target];
+    });
   }
 
   get nodes() {
