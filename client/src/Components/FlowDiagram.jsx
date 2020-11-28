@@ -12,6 +12,15 @@ const FlowDiagram = ({ code }) => {
             .then(response => {
                 console.log("Successfully fetched analysis data");
                 console.log(response.data);
+
+                var nodes = response.data.nodes;
+                var links = response.data.links;
+
+                links.forEach(link => {
+                    link.source = nodes[link.source] || (nodes[link.source] = { name: link.source });
+                    link.target = nodes[link.target] || (nodes[link.target] = { name: link.target });
+                });
+
                 setGraphData({
                     nodes: response.data.nodes,
                     links: response.data.links

@@ -7,10 +7,18 @@ import 'prismjs/components/prism-javascript';
 
 const CodeEditor = () => {
     const [inputCode, setInputCode] = React.useState(
-        `function add(a, b) { 
-    return a + b;
-}
-add(1, 2);
+        `
+        function add(a, b) { 
+
+            return substract(a, b);
+        }
+        
+        function substract(a, b){
+            return a-b;
+        }
+        
+        add(1, 2);
+        
 `);
 
     console.log(inputCode);
