@@ -8,11 +8,16 @@ class ForceDirectedGraph extends Component {
 
     constructor(props){
         super(props)
-        
+
         this.state = {
-            links: this.props.links,
-            nodes: this.props.nodes,
-            param: "",
+            links: this.props.data.links,
+            nodes: this.props.data.nodes,
+            // links: links,
+            // nodes: nodes,
+            data: this.props.data,
+            // links: this.props.links,
+            // nodes: this.props.nodes,
+            // simulation: null,
         };
         console.log("constructor set states");
 
@@ -21,7 +26,42 @@ class ForceDirectedGraph extends Component {
     componentDidMount() {
         // render the chart
         this.renderChart();
+
+        console.log("componentDidMount");
     } 
+
+    // componentDidUpdate() {
+    //     // render the chart
+    //     this.componentDidMount();
+    // } 
+
+    componentWillReceiveProps(nextProps) {
+
+        // this.setState({ 
+        //     links: nextProps.data.links,
+        //     nodes: nextProps.data.nodes,
+        //     data: nextProps.data,
+        // }, () => { 
+        //     console.log("updated states:  data: " +JSON.stringify(this.state.data));
+        //     // this.forceUpdate();
+        //     // var simulation = this.state.simulation;
+        //     // simulation.stop();
+        //     this.removeChart();
+        //     // this.renderChart();
+        //     this.componentDidMount();
+
+        // });
+
+    }
+
+    removeChart(){
+        // d3.select(".chart-container").remove();
+        // d3.select(".chart-container").remove();
+        d3.select(".graph").remove();
+        d3.select(".tooltip").remove();
+        // d3.selectAll("svg").remove();
+        // d3.selectAll("div").remove();
+    }
 
     renderChart() {
     
@@ -34,8 +74,14 @@ class ForceDirectedGraph extends Component {
         const forcePadding = nodeRadius + 10;
         const targetDistanceUnitLength = nodeRadius / 4;
 
-        var links = this.state.links;
-        var nodes = this.state.nodes;
+        // var links = this.state.links;
+        // var nodes = this.state.nodes;
+        var links = this.state.data.links;
+        var nodes = this.state.data.nodes;
+
+        // console.log("links:  " + links);
+        // console.log("nodes:  " + nodes);
+        console.log("example target:  " + JSON.stringify(nodes[0].target));
 
         // apply the d3's force simulation to initialize a force directed graph
         var simulation = d3
@@ -46,7 +92,7 @@ class ForceDirectedGraph extends Component {
                     .forceLink()
                     .id(d => d.name)
                     .distance(100)
-                    .links(links)
+                    .links(this.state.data.links)
             )
             .force(
                 "collide",
@@ -58,23 +104,133 @@ class ForceDirectedGraph extends Component {
             .force("charge", d3.forceManyBody().strength(-200))
             .force("center", d3.forceCenter(width / 2, height / 2))
             .on("tick", ticked)
-            .nodes(d3.values(nodes));
+            .nodes(d3.values(this.state.data.nodes))
+            ;
+
+        // this.setState({ 
+        //     simulation: simulation,
+        // });
+
+        // Use elliptical arc path segments to doubly-encode directionality.
+        function ticked() {
+            linkPath
+                .attr(
+                    "d",
+                    d => `M${d.source.x},${d.source.y} L${d.target.x},${d.target.y}`
+                )
+                .attr("transform", d => {
+                const translation = calcTranslation(
+                    d.targetDistance * targetDistanceUnitLength,
+                    d.source,
+                    d.target
+                );
+                    d.offsetX = translation.dx;
+                    d.offsetY = translation.dy;
+                    if(d.offsetX && d.offsetY){
+                        return `translate (${d.offsetX}, ${d.offsetY})`;
+                    }
+                });
+            linkLabel.attr("transform", d => {
+                if (d.target.x < d.source.x) {
+                    return (
+                        "rotate(180," +
+                        ((d.source.x + d.target.x) / 2 + d.offsetX) +
+                        "," +
+                        ((d.source.y + d.target.y) / 2 + d.offsetY) +
+                        ")"
+                );
+                } else {
+                    return "rotate(0)";
+                }
+            });
+            nodeCircle.attr("transform", transform);
+            nodeLabel.attr("transform", transform);
+        }
       
+        function transform(d) {
+            d.x =
+                d.x <= forcePadding
+                    ? forcePadding
+                    : d.x >= width - forcePadding
+                        ? width - forcePadding
+                        : d.x;
+            d.y =
+                d.y <= forcePadding
+                    ? forcePadding
+                    : d.y >= height - forcePadding
+                        ? height - forcePadding
+                        : d.y;
+
+            if(d.x && d.y){
+                return "translate(" + d.x + "," + d.y + ")";
+            }
+        }
+      
+        // drag start event
+        function dragstarted(d) {
+            if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+        }
+      
+        // on drag event
+        function dragged(d) {
+            d.fx = d3.event.x;
+            d.fy = d3.event.y;
+            tooltip.style('display', 'none');
+        }
+      
+        // drag end event
+        function dragended(d) {
+            if (!d3.event.active) simulation.alphaTarget(0);
+            d.fx = null;
+            d.fy = null;
+        }
 
         // initialize a chart container
-        const chartContainer = d3.select(".chart-container");
+
+        const chartContainer = d3.select(".top-container");
       
+        // // initialize the svg
+        // const chartContainer = topContainer
+        // .append("div")
+        // .attr("class", "chart-container");
+
+        // const topContainer = d3.select(".top-container");
+      
+        // // initialize the svg
+        // const chartContainer = topContainer
+        // .append("div")
+        // .attr("class", "chart-container");
+
         // initialize the svg
         const svg = chartContainer
             .append("svg")
+            .attr("class", "graph")
             .attr("width", width)
             .attr("height", height);
       
+        // initialize the edge and add to the graph containter
+        var tooltip = chartContainer
+        .append("div")
+        .style("position", "absolute")
+        .attr("class", "tooltip")
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "2px")
+        .style("border-radius", "5px")
+        .style("padding", "5px")
+        .style("height", "200px")
+        .style("width", "250px")
+        .on("mouseover", extendNodeTooltip)
+        .on("mouseout", removeNodeTooltip)
+        ;
+
         // setup the svg
         svg
             .append("defs")
             .selectAll("marker")
-            .data(["call", "exception", "resolved"])
+            .data(["call", "exception", "recursion"])
             .enter()
             .append("marker")
             .attr("id", d => d)
@@ -88,9 +244,6 @@ class ForceDirectedGraph extends Component {
             .attr("d", "M0,0 L0,8 L8,4 z")
             ;
 
-        // add a group element to the svg for the zoom feature purpose 
-        var g = svg.append('g');
-
         // when there is a zoom event, call zoom on all the element in the g group
         svg.call(
             d3.zoom()
@@ -99,6 +252,11 @@ class ForceDirectedGraph extends Component {
                 d3.select('g').attr('transform', d3.event.transform);
             })
         );
+
+        svg.selectAll("*").remove();
+
+        // add a group element to the svg for the zoom feature purpose 
+        var g = svg.append('g');
 
         // initialize the edge and add to the group element
         const linkPath = g
@@ -160,93 +318,6 @@ class ForceDirectedGraph extends Component {
             .text(function(d) {
                 return d.name;
         });
-      
-        // initialize the edge and add to the graph containter
-        var tooltip = chartContainer
-            .append("div")
-            .style("position", "absolute")
-            .attr("class", "tooltip")
-            .style("background-color", "white")
-            .style("border", "solid")
-            .style("border-width", "2px")
-            .style("border-radius", "5px")
-            .style("padding", "5px")
-            .style("height", "200px")
-            .style("width", "250px")
-            .on("mouseover", extendNodeTooltip)
-            .on("mouseout", removeNodeTooltip)
-            ;
-
-        // Use elliptical arc path segments to doubly-encode directionality.
-        function ticked() {
-            linkPath
-                .attr(
-                    "d",
-                    d => `M${d.source.x},${d.source.y} L${d.target.x},${d.target.y}`
-                )
-                .attr("transform", d => {
-                const translation = calcTranslation(
-                    d.targetDistance * targetDistanceUnitLength,
-                    d.source,
-                    d.target
-                );
-                    d.offsetX = translation.dx;
-                    d.offsetY = translation.dy;
-                    return `translate (${d.offsetX}, ${d.offsetY})`;
-                });
-            linkLabel.attr("transform", d => {
-                if (d.target.x < d.source.x) {
-                    return (
-                        "rotate(180," +
-                        ((d.source.x + d.target.x) / 2 + d.offsetX) +
-                        "," +
-                        ((d.source.y + d.target.y) / 2 + d.offsetY) +
-                        ")"
-                );
-                } else {
-                    return "rotate(0)";
-                }
-            });
-            nodeCircle.attr("transform", transform);
-            nodeLabel.attr("transform", transform);
-        }
-      
-        function transform(d) {
-            d.x =
-                d.x <= forcePadding
-                    ? forcePadding
-                    : d.x >= width - forcePadding
-                        ? width - forcePadding
-                        : d.x;
-            d.y =
-                d.y <= forcePadding
-                    ? forcePadding
-                    : d.y >= height - forcePadding
-                        ? height - forcePadding
-                        : d.y;
-            return "translate(" + d.x + "," + d.y + ")";
-        }
-      
-        // drag start event
-        function dragstarted(d) {
-            if (!d3.event.active) simulation.alphaTarget(0.3).restart();
-            d.fx = d.x;
-            d.fy = d.y;
-        }
-      
-        // on drag event
-        function dragged(d) {
-            d.fx = d3.event.x;
-            d.fy = d3.event.y;
-            tooltip.style('display', 'none');
-        }
-      
-        // drag end event
-        function dragended(d) {
-            if (!d3.event.active) simulation.alphaTarget(0);
-            d.fx = null;
-            d.fy = null;
-        }
 
         // initialize the node tooltip content and make it visible
         function addNodeTooltip(d) {
@@ -358,9 +429,10 @@ class ForceDirectedGraph extends Component {
     }
 
     render() {
+        // this.renderChart();
       return (
         <div>
-            <div className="chart-container"></div>
+            <div className="top-container"></div>
         </div>
       );
     }

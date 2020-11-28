@@ -1,4 +1,6 @@
-import React, {Component} from "react"
+import React, {Component} from "react";
+import axios from 'axios';
+
 export default class Editor extends Component {
 
     constructor(props) {
@@ -9,9 +11,14 @@ export default class Editor extends Component {
     }
 
     generate = () =>{
+
+
         this.setState({
             code: document.getElementById("textfield-code").innerHTML
         });
+
+        const code = document.getElementById("textfield-code").innerHTML;
+        this.props.onCodeUpdate(code);   
     };
 
     render() {
@@ -23,7 +30,7 @@ export default class Editor extends Component {
                         please input your code, and click generate once you complete
                     </p>
                     <forum>
-                    <textarea cols={80} rows={40} id={"textfield-code"}>
+                    <textarea cols={80} rows={1} id={"textfield-code"}>
                     </textarea>
                         <br/>
                         <button onClick={this.generate} id={"btn-generateInput"}>generate</button>
