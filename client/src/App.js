@@ -1,15 +1,10 @@
 import './App.css';
-import Visualization from './Visualization';
-import Editor from "./Components/editor";
-import MainUI from './MainUI';
+import React from 'react';
+import CodeEditor from "./Components/CodeEditor";
 
 function App() {
   return (
-    <div>
-      {/* <Editor />
-      <Visualization /> */}
-      <MainUI />
-    </div>
+      <CodeEditor />
   );
 }
 

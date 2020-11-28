@@ -36,3 +36,19 @@
     transform: rotate(360deg);
   }
 }
+
+#root {
+  grid-gap: 1rem;
+  grid-template-columns: 10px 1fr 1fr 10px;
+  grid-template-areas: ". editor visualization .";
+}
+
+.code-editor {
+  grid-area: editor;
+  width: auto;
+}
+
+.top-container {
+  grid-area: visualization;
+  border-color: black;
+}
