@@ -44,11 +44,16 @@
 }
 
 .code-editor {
+  border: #282c34;
   grid-area: editor;
-  width: auto;
+  width: 500px;
+  float: left;
 }
 
 .top-container {
   grid-area: visualization;
   border-color: black;
+  width: 500px;
+  height: 500px;
+  float: left;
 }

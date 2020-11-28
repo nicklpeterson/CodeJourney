@@ -6,12 +6,14 @@ import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-javascript';
 
 const CodeEditor = () => {
-    const [code, setCode] = React.useState(
+    const [inputCode, setInputCode] = React.useState(
         `function add(a, b) { 
     return a + b;
 }
 add(1, 2);
 `);
+
+    console.log(inputCode);
 
         return (
             <React.Fragment>
@@ -20,8 +22,8 @@ add(1, 2);
                     Please input your code.
                 </header>
                 <Editor
-                    value = {code}
-                    onValueChange = {code => setCode(code)}
+                    value = {inputCode}
+                    onValueChange = {code => setInputCode(code)}
                     highlight = { code => highlight(code, languages.js) }
                     padding={10}
                     style={{
@@ -30,7 +32,7 @@ add(1, 2);
                     }}
                 />
             </div>
-            <FlowDiagram code = {code}/>
+            <FlowDiagram code = {inputCode}/>
             </React.Fragment>
         );
 }
