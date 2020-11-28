@@ -20,7 +20,7 @@ text {
 
 .link {
   fill: none;
-  stroke: #666;
+  /* stroke: #666; */
   stroke-width: 1.5px;
 }
 
@@ -41,14 +41,6 @@ text {
   stroke: #8da0cb;
 }
 
-.link.suit {
-  stroke: #fc8d62;
-}
-
-#suit {
-  fill: #fc8d62;
-}
-
 .link.call {
   stroke: #fc8d62;
 }
@@ -56,6 +48,15 @@ text {
 #call {
   fill: #fc8d62;
 }
+
+.link.recursion {
+  stroke: #8da0cb;
+}
+
+#recursion {
+  fill: #8da0cb;
+}
+
 
 .link-label {
   text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;

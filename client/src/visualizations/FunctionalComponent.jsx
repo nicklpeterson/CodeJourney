@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import * as d3 from 'd3';
 import ReactDOM from 'react-dom';
 import ReactJson from 'react-json-view'
@@ -28,14 +28,8 @@ export const FunctionalComponent = (props) => {
                     const forcePadding = nodeRadius + 10;
                     const targetDistanceUnitLength = nodeRadius / 4;
 
-                    // var links = this.state.links;
-                    // var nodes = this.state.nodes;
                     var links = props.data.links;
                     var nodes = props.data.nodes;
-
-                    // console.log("links before adding the graph:  " + JSON.stringify(links));
-                    // console.log("nodes before adding the graph:  " + JSON.stringify(nodes));
-                    // console.log("example links target:  " + JSON.stringify(links[0].target));
 
                     // apply the d3's force simulation to initialize a force directed graph
                     var simulation = d3
@@ -44,7 +38,7 @@ export const FunctionalComponent = (props) => {
                             "link",
                             d3
                                 .forceLink()
-                                .id(d => d.name)
+                                .id(d => d.id)
                                 .distance(100)
                                 .links(links)
                         )
@@ -67,10 +61,27 @@ export const FunctionalComponent = (props) => {
 
                     // Use elliptical arc path segments to doubly-encode directionality.
                     function ticked() {
+                        // console.log("D:   " + d);
                         linkPath
                             .attr(
                                 "d",
-                                d => `M${d.source.x},${d.source.y} L${d.target.x},${d.target.y}`
+                                d => {
+                                    if((d.source.x !== d.target.x) && (d.source.y !== d.target.y)){
+                                        // normal edge
+                                        return `M${d.source.x},${d.source.y} L${d.target.x},${d.target.y}`;
+                                    } else {
+                                        // self edge for recursion
+                                        var xRotation = -45;
+                                        var largeArc = 1;
+                                        var sweep = 0;
+                                
+                                        // length and width of the circle
+                                        var drx = 18;
+                                        var dry = 25;
+                
+                                        return `M${d.source.x},${d.source.y} A${drx},${dry} ${xRotation},${largeArc},${sweep} ${d.source.x + 1},${d.source.y + 1}`;
+                                    }
+                                }
                             )
                             .attr("transform", d => {
                             const translation = calcTranslation(
@@ -80,9 +91,7 @@ export const FunctionalComponent = (props) => {
                             );
                                 d.offsetX = translation.dx;
                                 d.offsetY = translation.dy;
-                                if(d.offsetX && d.offsetY){
-                                    return `translate (${d.offsetX}, ${d.offsetY})`;
-                                }
+                                return `translate (${d.offsetX}, ${d.offsetY})`;
                             });
                         linkLabel.attr("transform", d => {
                             if (d.target.x < d.source.x) {
@@ -115,9 +124,7 @@ export const FunctionalComponent = (props) => {
                                     ? height - forcePadding
                                     : d.y;
 
-                        if(d.x && d.y){
-                            return "translate(" + d.x + "," + d.y + ")";
-                        }
+                        return "translate(" + d.x + "," + d.y + ")";
                     }
                     
                     // drag start event
@@ -144,18 +151,6 @@ export const FunctionalComponent = (props) => {
                     // initialize a chart container
 
                     const chartContainer = d3.select(topContainer.current);
-                    
-                    // // initialize the svg
-                    // const chartContainer = topContainer
-                    // .append("div")
-                    // .attr("class", "chart-container");
-
-                    // const topContainer = d3.select(".top-container");
-                    
-                    // // initialize the svg
-                    // const chartContainer = topContainer
-                    // .append("div")
-                    // .attr("class", "chart-container");
 
                     // initialize the svg
                     const svg = chartContainer
@@ -180,11 +175,11 @@ export const FunctionalComponent = (props) => {
                     .on("mouseout", removeNodeTooltip)
                     ;
 
-                    // setup the svg
+                    // setup the arrow
                     svg
                         .append("defs")
                         .selectAll("marker")
-                        .data(["call", "exception", "recursion"])
+                        .data(["call", "other"])
                         .enter()
                         .append("marker")
                         .attr("id", d => d)
@@ -198,6 +193,33 @@ export const FunctionalComponent = (props) => {
                         .attr("d", "M0,0 L0,8 L8,4 z")
                         ;
 
+                    // setup the arrow for recursion
+                    svg
+                        .append("defs")
+                        .selectAll("marker")
+                        .data(["recursion"])
+                        .enter()
+                        .append("marker")
+                        .attr("id", d => d)
+                        // .attr("viewBox", "0 -5 10 10")
+                        // .attr("markerWidth", 8)
+                        // .attr("markerHeight", 8)
+                        // .attr("refX", nodeRadius + 8)
+                        // .attr("refY", 4)
+                        // .attr("orient", "auto")
+                        // .attr("markerUnits", "userSpaceOnUse")
+                        // .append("path")
+                        // .attr("d", "M0,0 L0,8 L8,4 z")
+                        // .attr("viewBox", "0 -10 8 8")
+                        // .attr("refX", nodeRadius + 8)
+                        // .attr("refY", 4)
+                        // .attr("markerWidth", 6)
+                        // .attr("markerHeight", 6)
+                        // .attr("orient", "auto")
+                        // .append("path")
+                        // .attr("d", "M0,-10L8,0L0,5")
+                        ;
+
                     // when there is a zoom event, call zoom on all the element in the g group
                     svg.call(
                         d3.zoom()
@@ -206,8 +228,6 @@ export const FunctionalComponent = (props) => {
                             d3.select('g').attr('transform', d3.event.transform);
                         })
                     );
-
-                    svg.selectAll("*").remove();
 
                     // add a group element to the svg for the zoom feature purpose 
                     var g = svg.append('g');
@@ -239,7 +259,7 @@ export const FunctionalComponent = (props) => {
                         .append("textPath")
                         .attr("href", (d, i) => `#link-${i}`)
                         .attr("startOffset", "50%")
-                        .text(d => d.type);
+                        .text(d => (d.type + d.typeParam));
                     
                     // initialize the node circle and add to the group element
                     const nodeCircle = g

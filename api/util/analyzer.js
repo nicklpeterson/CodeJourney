@@ -34,7 +34,8 @@ class Analyzer {
           value: 1,
           polarity: 1,
           targetDistance: 1,
-          type: type
+          type: type,
+          typeParam: " 1",
         };
         console.log('Adding Link: ' + JSON.stringify(link));
         this._callLinks.push(link);
