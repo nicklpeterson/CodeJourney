@@ -2,13 +2,14 @@ import React, {useEffect} from "react";
 import axios from 'axios';
 import {FunctionalComponent} from "../visualizations/FunctionalComponent";
 
-const FlowDiagram = ({ code }) => {
+const FlowDiagram = ({ code, toggle }) => {
     const API_URL = 'http://localhost:9000/eval';
     const [graphData, setGraphData] = React.useState({nodes: [], links: []});
 
     useEffect(() => {
         const headers = {"Content-Type": "application/json"}
-        axios.post(API_URL, {code: code}, { headers })
+        const type = toggle ? 'loose' : 'compact'
+        axios.post(API_URL, {code: code, type: type}, { headers })
             .then(response => {
                 console.log("Successfully fetched analysis data");
                 console.log(response.data);

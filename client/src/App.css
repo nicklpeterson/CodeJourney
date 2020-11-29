@@ -37,27 +37,6 @@
   }
 }
 
-#root {
-  grid-gap: 1rem;
-  grid-template-columns: 10px 1fr 1fr 10px;
-  grid-template-areas: ". editor visualization .";
-}
-
-.code-editor {
-  border: #282c34;
-  grid-area: editor;
-  width: 500px;
-  float: left;
-}
-
-.top-container {
-  grid-area: visualization;
-  border-color: black;
-  width: 500px;
-  height: 500px;
-  float: left;
-}
-
-.npm__react-simple-code-editor__textarea {
-  border: black 3px;
+.cm-s-material {
+  height: 725px !important;
 }
