@@ -1,4 +1,5 @@
-import Analyzer from "../util/analyzer";
+import CompactAnalyzer from "../util/CompactAnalyzer";
+import LooseAnalyzer from "../util/LooseAnalyzer";
 
 const express = require('express');
 const router = express.Router();
@@ -12,7 +13,7 @@ router.post('/eval', (req, res, next) => {
   console.log('Post: /eval');
   try {
     if (req.body.code) {
-      const analyzer = new Analyzer(req.body.code);
+      const analyzer = new CompactAnalyzer(req.body.code);
       analyzer.evaluate();
       res.status(200).send({ nodes: analyzer.nodes, links: analyzer.callLinks });
     } else {

@@ -13,18 +13,8 @@ const FlowDiagram = ({ code }) => {
                 console.log("Successfully fetched analysis data");
                 console.log(response.data);
 
-                // var nodes = response.data.nodes;
-                // var links = response.data.links;
-
-                var links = [
-                { source: 0, target: 1, value: 1 , polarity: 1, targetDistance: 1, type: "call", typeParam: "1" },
-                { source: 1, target: 1, value: 1 , polarity: 1, targetDistance: 1, type: "recursion", typeParam: "10" },
-            ];
-    
-            var nodes = [
-                { name: "Main", group: 1, id: 0, data:{ key1: "What", key2: "the", key3: {key4: "fxxk", key5: "???"}}  },
-                { name: "Recursion", group: 1, id: 1, data:{ key1: "What", key2: "the", key3: {key4: "fxxk", key5: "???"}}  },
-            ];
+                const nodes = response.data.nodes;
+                const links = response.data.links;
 
                 // set the reference for the link
                 links.forEach(link => {

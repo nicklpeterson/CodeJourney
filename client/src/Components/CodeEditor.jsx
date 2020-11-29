@@ -6,71 +6,38 @@ import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-javascript';
 
 const CodeEditor = () => {
-//     const [inputCode, setInputCode] = React.useState(
-//         `
-// const stack = [];
-// function add(a, b) {
-//     return foo(a + 1, b + 1);
-// };
-// function foo(a, b) {
-//     doNothing();
-//     let ret = 0;
-//     while (ret < 100) {
-//         ret += bar(a+1, b+1)
-//     }
-//     return ret;
-// };
-// function bar(a, b) {
-//     doNothing();
-//     const c = factorial(5);
-//     return a + b + c;
-// }
-// function doNothing() {
-//   console.log('do nothing');
-// }
-// function factorial(n) {
-//     doNothing();
-//   if (n === 1) {
-//     return 1;
-//     }
-//   return n * factorial(n - 1);
-// }
-// add(1, 1);
-        
-// `);
-
-const [inputCode, setInputCode] = React.useState(
-    `
-const stack = [];
-function add(a, b) {
-return foo(a + 1, b + 1);
-};
-function foo(a, b) {
-doNothing();
-let ret = 0;
-while (ret < 100) {
-    ret += bar(a+1, b+1)
-}
-return ret;
-};
-function bar(a, b) {
-doNothing();
-const c = factorial(5);
-return a + b + c;
-}
-function doNothing() {
-console.log('do nothing');
-}
-function factorial(n) {
-doNothing();
-if (n === 1) {
-return 1;
-}
-return n * factorial(n - 1);
-}
-add(1, 1);
-    
-`);
+     const [inputCode, setInputCode] = React.useState(
+         `
+ const stack = [];
+ function add(a, b) {
+     return foo(a + 1, b + 1);
+ };
+ function foo(a, b) {
+     doNothing();
+     let ret = 0;
+     while (ret < 1000) {
+         ret += bar(a + 1, b + 1);
+     }
+     return ret;
+ };
+ function bar(a, b) {
+     doNothing();
+     const c = factorial(5);
+     return a + b + c;
+ }
+ function doNothing() {
+   console.log('do nothing');
+ }
+ function factorial(n) {
+     doNothing();
+   if (n === 1) {
+     return 1;
+     }
+   return n * factorial(n - 1);
+ }
+ add(1, 1);
+      
+ `);
 
     console.log(inputCode);
 
