@@ -20,8 +20,8 @@ export const FunctionalComponent = (props) => {
                     d3.select(".tooltip").remove();
 
                     // set the size of the svg
-                    const width = window.innerWidth - 10;
-                    const height = window.innerHeight - 10;
+                    const width = window.innerWidth - 430;
+                    const height = window.innerHeight - 200;
 
                     // styles
                     const nodeRadius = 20;
