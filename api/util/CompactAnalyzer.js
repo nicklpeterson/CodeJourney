@@ -16,7 +16,7 @@ class CompactAnalyzer extends Analyzer {
         this._callLinks.forEach(link => {
           if (link.target === event.hash && link.source === caller.hash) {
             link.typeParam++;
-            console.log('Incrementing link: ' + JSON.stringify(link));
+            // console.log('Incrementing link: ' + JSON.stringify(link));
             newLink = link;
           }
         });
@@ -31,66 +31,68 @@ class CompactAnalyzer extends Analyzer {
             type: caller.hash === event.hash ? 'recursion' : 'call',
             typeParam: 1
           };
-          console.log('Adding Link: ' + JSON.stringify(link));
+          // console.log('Adding Link: ' + JSON.stringify(link));
           this._callLinks.push(link);
         }
       }
 
       this._callStack.push({
         hash: event.hash,
-        data: [{caller: caller.hash, parameters: event.arguments}]
+        data: {inputs: [{caller: caller.hash, parameters: event.arguments}], TimeSpentInFunction: 0},
+        start: Date.now()
       });
     });
   }
 
   addFunctionExitListeners() {
-    this._stage.addListener(Iroh.FUNCTION).on('leave', event => {
+
+    const functionExitListener = event => {
       const fun = this._callStack.pop();
       this._functionNameMap[fun.hash] = event.name;
       if (fun) {
+        const timeElapsed = Date.now() - fun.start;
+        fun.data.inputs[0].time = timeElapsed;
         const indexOfNode = this._functionIndexMap[fun.hash];
         if (indexOfNode || indexOfNode === 0) {
           const node = this._nodes[indexOfNode];
-          node.data.push(fun.data[0]);
-          console.log('Update Node: ' + JSON.stringify(this._nodes[indexOfNode]));
+          if (event.return) {
+            node.data.inputs.push({...fun.data.inputs[0], return: event.return})
+          }
+          else {
+            node.data.inputs.push(fun.data.inputs[0]);
+          }
+          node.data.TimeSpentInFunction += timeElapsed;
+          // console.log('Update Node: ' + JSON.stringify(this._nodes[indexOfNode]));
         }
         else {
+          fun.data.TimeSpentInFunction += timeElapsed;
           fun.name = event.name;
-          console.log('Adding Node: ' + JSON.stringify(fun));
+          if (event.return) {
+            fun.data.inputs[0] = {...fun.data.inputs[0], return: event.return};
+          }
           this._nodes.push(fun);
           this._functionIndexMap[fun.hash] = this._nodes.length - 1;
         }
       }
-    });
 
-    this._stage.addListener(Iroh.FUNCTION).on('return', event => {
-      const fun = this._callStack.pop();
-      this._functionNameMap[fun.hash] = event.name;
-      if (fun) {
-        const indexOfNode = this._functionIndexMap[fun.hash];
-        if (indexOfNode || indexOfNode === 0) {
-          this._nodes[indexOfNode].data.push({...fun.data[0], return: event.return});
-          console.log('Update Node: ' + JSON.stringify(this._nodes[indexOfNode]));
-        }
-        else {
-          fun.name = event.name;
-          fun.data[0] = {...fun.data[0], return: event.return};
-          console.log('Adding Node: ' + JSON.stringify(fun));
-          this._nodes.push(fun);
-          this._functionIndexMap[fun.hash] = this._nodes.length - 1;
-        }
-      }
-    });
+    }
+
+    this._stage.addListener(Iroh.FUNCTION).on('leave', functionExitListener);
+
+    this._stage.addListener(Iroh.FUNCTION).on('return', functionExitListener);
   }
 
   formatDataAfterEval() {
     this._nodes.forEach(node => {
       node.id = this._functionIndexMap[node.hash];
-      node.data.forEach(element => {
-        if (element.caller) {
-          element.caller = this._functionNameMap[element.caller];
-        }
-      })
+      if (node.data && node.data.inputs) {
+        node.data.TimeSpentInFunction = node.data.TimeSpentInFunction.toString() + " ms";
+        node.data.inputs.forEach(element => {
+          if (element.caller) {
+            element.caller = this._functionNameMap[element.caller];
+          }
+        })
+      }
     });
     this._callLinks.forEach(link => {
       link.source = this._functionIndexMap[link.source];

@@ -9,6 +9,7 @@ class Analyzer {
         this._nodes = [];
         this._functionIndexMap = {};
         this._functionNameMap = {};
+        this._error = null;
         this.addProgramListeners();
     }
 
@@ -29,8 +30,12 @@ class Analyzer {
     }
 
     evaluate() {
-        eval(this._stage.script);
-        this.formatDataAfterEval();
+        try {
+            eval(this._stage.script);
+            this.formatDataAfterEval();
+        } catch (error) {
+            this._error = error;
+        }
     }
 
     formatDataAfterEval() {}
@@ -41,6 +46,10 @@ class Analyzer {
 
     get callLinks() {
         return this._callLinks;
+    }
+
+    get error() {
+        return this._error;
     }
 }
 

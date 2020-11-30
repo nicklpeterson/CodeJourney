@@ -20,7 +20,8 @@ router.post('/eval', (req, res, next) => {
         analyzer = new CompactAnalyzer(req.body.code);
       }
       analyzer.evaluate();
-      res.status(200).send({ nodes: analyzer.nodes, links: analyzer.callLinks });
+      const errorMessage = analyzer.error ? analyzer.error.message : null;
+      res.status(200).send({ nodes: analyzer.nodes, links: analyzer.callLinks, error: errorMessage });
     } else {
       res.status(400).send('Request body must contain Javascript code');
     }
