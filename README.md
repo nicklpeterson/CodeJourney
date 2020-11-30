@@ -11,6 +11,7 @@ Overall, our users indicated that this would be a useful analysis tool for Javas
 ## How to start
 You need to run both Front-end and Back-end application to for this program. First install Node if you don't already have it on your machine.
 Our frontend runs on port 3000 and the backend runs on port 9000. Please clear those ports before running Code Journey.
+
 ## Front End
 Navigate to cpsc410_project2_team23/api and run the terminal command:
 ```npm install && npm start```
