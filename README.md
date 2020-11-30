@@ -1,56 +1,52 @@
-# README
-Code Journey: A Visual Tool for Dynamic Analysis
+# Code Journey: A Visual Tool for Dynamic Analysis
+
+## Why Code Journey
+Code Journey dynamic analysis provides developers with a lot of useful and hard to obtain information about the execution of their program.
+This includes parameters, return value, number of invocations, caller, and execution time of each function call. It is presented 
+in a nice easy to understand visualization.
+
+We performed several user studies that guided our decisions about which information to include and how to present that data.
+Overall, our users indicated that this would be a useful analysis tool for Javascript developers.
 
 ## How to start
-You need to run both Front-end and Back-end application to test this .
-</br></br>
+You need to run both Front-end and Back-end application to for this program. First install Node if you don't already have it on your machine.
+Our frontend runs on port 3000 and the backend runs on port 9000. Please clear those ports before running Code Journey.
+## Front End
+Navigate to cpsc410_project2_team23/api and run the terminal command:
+```npm install && npm start```
 
-## How to install and run the project
+Then navigate to cpsc410_project2_team23/client and run:
+```npm install && npm start```
 
-To run the ba
+Now, point your browser to localhost:3000.
 
-### `yarn start`
+## The Analysis
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The code journey performs a dynamic analysis on Javascript code. It specifically looks at important information 
+about each function call including parameters, return value, number of invocations, caller, and execution time. We are using a
+Javascript analysis tool called Iroh to perform the analysis. This tool allows the user to add listners to the Javascript AST. The listeners get 
+called when specific code characters are reach such as a return statement, function declaration, etc. We track the order of calls 
+and important data like execution time using a call stack.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Visualization
 
-### `yarn test`
+Our visualization is a call graph that shows how functions call each other. There are two types of call graphs that can be generated:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Compact: A compact call graph shows a single node for each function, even if the function is called multiple times. The 
+    arrows contain information about how many times the function was called from each caller. Additional data is viewed in the 
+    tooltip by hovering over the node. You can expand the inputs to see the parameters, return value, caller, and execution time of each call.
 
-### `yarn build`
+2. Not Compact: This call graph shows a new node for each time a function call. We find this visualization most useful for 
+    small programs and small recursive and mutually recursive functions where it can be interesting and valuable to construct an
+    execution tree. For larger programs with many function calls it is much better to use the compact visualization.
+    
+Note: we decided to implement both versions of our visualization after our user studies were inconclusive about which one would be more useful.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Testing
+The initial code in the editor provides a great example of the two visualizations and how they differ. Start by running that code 
+with compact toggled on and off to see the difference. For a larger example, I encourage you to try inputting the code we
+used in our user stories below. That code provides an example of how the "non-compact" version can be unusable with large programs and
+how the compact version can show you information about your execution that would otherwise be very hard to obtain.
 
 ### User Studies
 
@@ -119,7 +115,6 @@ The Code:
     add(1, 1);
 }
 ```
-
 
 The Questions (primers to get the user thinking about the code, the idea is to not spend a lot of time on any individual question):
 1.  How many times will bar call factorial? (No one was able to answer this correctly)
