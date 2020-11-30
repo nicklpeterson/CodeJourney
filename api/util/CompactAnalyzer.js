@@ -68,7 +68,7 @@ class CompactAnalyzer extends Analyzer {
       this._functionNameMap[fun.hash] = event.name;
       if (fun) {
         const indexOfNode = this._functionIndexMap[fun.hash];
-        if (indexOfNode) {
+        if (indexOfNode || indexOfNode === 0) {
           this._nodes[indexOfNode].data.push({...fun.data[0], return: event.return});
           console.log('Update Node: ' + JSON.stringify(this._nodes[indexOfNode]));
         }

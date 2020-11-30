@@ -8,7 +8,7 @@ const FlowDiagram = ({ code, toggle }) => {
 
     useEffect(() => {
         const headers = {"Content-Type": "application/json"}
-        const type = toggle ? 'loose' : 'compact'
+        const type = toggle ? 'compact' : 'loose'
         axios.post(API_URL, {code: code, type: type}, { headers })
             .then(response => {
                 console.log("Successfully fetched analysis data");
