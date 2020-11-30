@@ -22,14 +22,15 @@ class LooseAnalyzer extends Analyzer {
                     type: 'call',
                     typeParam: 1
                 };
-                console.log('Adding Link: ' + JSON.stringify(link));
+                // console.log('Adding Link: ' + JSON.stringify(link));
                 this._callLinks.push(link);
             }
 
             this._callStack.push({
                 funId: funId,
                 hash: event.hash,
-                data: { parameters: event.arguments }
+                data: { parameters: event.arguments },
+                start: Date.now()
             });
         });
 
@@ -38,12 +39,13 @@ class LooseAnalyzer extends Analyzer {
             if (fun) {
                 this._functionNameMap[fun.hash] = event.name;
                 fun.name = event.name;
+                fun.data.time = Date.now() - fun.start;
                 if (event.return) {
                     fun.data = { ...fun.data, return: event.return };
                 }
                 fun.id = this._nodes.length;
                 this._functionIndexMap[fun.funId] = fun.id;
-                console.log('Adding Node: ' + JSON.stringify(fun));
+                // console.log('Adding Node: ' + JSON.stringify(fun));
                 this._nodes.push(fun);
             }
         }

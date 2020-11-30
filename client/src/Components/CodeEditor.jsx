@@ -90,8 +90,11 @@ const IOSSwitch = withStyles((theme) => ({
 const CodeEditor = () => {
     const initialCode = `function factorial(a) {\n` +
                         `   if (a <= 1) return 1;\n` +
-                        `   return a * factorial(a - 1);\n` +
-                        `}\n` +
+                        `   return a * factorial(subOne(a));\n` +
+                        `}\n\n` +
+                        `function subOne(a) {\n` +
+                        `   return a - 1;\n` +
+                        `}\n\n` +
                         `factorial(6);`;
     const classes = useStyles();
     const [evalCode, setEvalCode] = React.useState(false);
