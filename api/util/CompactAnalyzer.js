@@ -28,7 +28,7 @@ class CompactAnalyzer extends Analyzer {
             value: 1,
             polarity: 1,
             targetDistance: 1,
-            type: 'call',
+            type: caller.hash === event.hash ? 'recursion' : 'call',
             typeParam: 1
           };
           console.log('Adding Link: ' + JSON.stringify(link));
