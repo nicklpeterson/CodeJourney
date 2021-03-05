@@ -13,10 +13,10 @@ You need to run both Front-end and Back-end application to for this program. Fir
 Our frontend runs on port 3000 and the backend runs on port 9000. Please clear those ports before running Code Journey.
 
 ## Front End
-Navigate to cpsc410_project2_team23/api and run the terminal command:
+Navigate to /api and run the terminal command:
 ```npm install && npm start```
 
-Then navigate to cpsc410_project2_team23/client and run:
+Then navigate to /client and run:
 ```npm install && npm start```
 
 Now, point your browser to localhost:3000.
